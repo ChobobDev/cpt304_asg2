@@ -6,19 +6,17 @@ import './App.css';
 
 const  App=()=> {
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [publicHoliday, setPublicHoliday] = useState(null);
+  const [location, setLocation] = useState(null);
+
   const handleCountryChange = (countryCode) => {
     setSelectedCountry(countryCode);
     console.log(countryCode);
   };
-  const handlePublicHoliday = (holiday) => {
-    setPublicHoliday(holiday);
-  };
   return (
     <div className="App">
-      <Location/>
+       <Location onLocationUpdate={setLocation} />
       <CountrySelector onCountryChange={handleCountryChange} />
-      <PublicHolidayList countryCode={selectedCountry} onHolidaySelect={handlePublicHoliday} />
+      {selectedCountry && <PublicHolidayList countryCode={selectedCountry} location={location} />}
     </div>
   );
 }
