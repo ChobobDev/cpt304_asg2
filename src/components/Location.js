@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
-const Location = () => {
+const Location = ({ onLocationUpdate }) => {
   const [locationName, setLocationName] = useState('');
 
   const getCurrentLocation = async () => {
@@ -14,6 +14,7 @@ const Location = () => {
           const city = response.data.address.city || response.data.address.town || response.data.address.village;
           if (city) {
             setLocationName(city);
+            onLocationUpdate({ lat: latitude, lon: longitude });
           }
         } catch (error) {
           console.error('Error fetching location details:', error);
@@ -27,7 +28,7 @@ const Location = () => {
 
   useEffect(() => {
     getCurrentLocation();
-  }, []);
+  }, [onLocationUpdate]);
 
   return (
     <div>
