@@ -1,61 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Holiday from './Holiday';
 
-const holidayBlockStyle = {
-    display: 'inline-block',
-    backgroundColor: '#f0f0f0',
-    border: '1px solid #ccc',
-    padding: '10px',
-    margin: '5px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-  };
-  
-
-const PublicHolidayList = ({ countryCode, onHolidaySelect }) => {
-  const [publicHolidays, setPublicHolidays] = useState([]);
+const PublicHolidayList = ({ countryCode, location }) => {
+  const [holidays, setHolidays] = useState([]);
 
   useEffect(() => {
-    const fetchPublicHolidays = async () => {
-      if (countryCode) {
-        try {
-          const response = await axios.get(`https://date.nager.at/api/v3/NextPublicHolidays/${countryCode}`);
-          setPublicHolidays(response.data);
-        } catch (error) {
-          console.error('Error fetching public holidays:', error);
-        }
-      } else {
-        setPublicHolidays([]);
+    const fetchHolidays = async () => {
+      try {
+        const response = await axios.get(`https://date.nager.at/Api/v2/PublicHolidays/${new Date().getFullYear()}/${countryCode}`);
+        setHolidays(response.data);
+      } catch (error) {
+        console.error('Error fetching public holidays:', error);
       }
     };
 
-    fetchPublicHolidays();
+    if (countryCode) {
+      fetchHolidays();
+    }
   }, [countryCode]);
-
-  const handleHolidayClick = (holiday) => {
-    onHolidaySelect(holiday);
-  };
 
   return (
     <div>
       <h2>Public Holidays</h2>
-      {publicHolidays.length === 0 ? (
-      <p>No public holidays available for the selected country.</p>
-    ) : (
-      <div>
-        {publicHolidays.map((holiday) => (
-          <div
-            key={holiday.date}
-            style={holidayBlockStyle}
-            onClick={() => handleHolidayClick(holiday)}
-          >
-            <strong>{holiday.name}</strong>
-            <br />
-            {holiday.date}
-          </div>
+      <div className="holiday-container">
+        {holidays.map((holiday) => (
+          <Holiday key={holiday.date} holiday={holiday} location={location} />
         ))}
       </div>
-        )}
     </div>
   );
 };
