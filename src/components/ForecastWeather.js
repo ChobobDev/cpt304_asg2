@@ -3,10 +3,10 @@ import React from 'react';
 const ForecastWeather = ({ weather }) => {
   return (
     <div>
-      <p>Weather: {weather.weather[0].description}</p>
-      <p>Average Temperature: {weather.temp.day}°C</p>
-      <p>Max Temperature: {weather.temp.max}°C</p>
-      <p>Min Temperature: {weather.temp.min}°C</p>
+      <p>Weather forecast:</p>
+      <p>Temperature: {weather?.temp.day}°C</p>
+      <p>Humidity: {weather?.humidity}%</p>
+      <p>Weather: {weather?.weather[0]?.description}</p>
     </div>
   );
 };
