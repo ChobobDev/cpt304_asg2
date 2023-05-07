@@ -14,7 +14,7 @@ const  App=()=> {
   };
   return (
     <div className="App">
-       <Location onLocationUpdate={setLocation} />
+      <Location onLocationUpdate={setLocation} />
       <CountrySelector onCountryChange={handleCountryChange} />
       {selectedCountry && <PublicHolidayList countryCode={selectedCountry} location={location} />}
     </div>
