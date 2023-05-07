@@ -4,6 +4,7 @@ import HistoricalWeather from './HistoricalWeather';
 import ForecastWeather from './ForecastWeather';
 import FutureWeather from './FutureWeather';
 import fetchWeather from '../utils/fetchWeather'
+import RentalInfo from './RentalInfo';
 
 
 const Holiday = ({ holiday, location }) => {
@@ -12,6 +13,11 @@ const Holiday = ({ holiday, location }) => {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null);
   const [showRentalInfo, setShowRentalInfo] = useState(false);
+
+
+  const handleHolidayClick = () => {
+    setShowRentalInfo(!showRentalInfo);
+  };
 
   const holidayBlockStyle = {
     display: 'inline-block',
@@ -61,10 +67,11 @@ const Holiday = ({ holiday, location }) => {
   
 
   return (
-    <div className="holiday" style={holidayBlockStyle}>
+    <div className="holiday" style={holidayBlockStyle} onClick={handleHolidayClick}>
       <h4>{holiday.name}</h4>
       <p>{holiday.date}</p>
       {loading ? <p>Loading weather...</p> : renderWeather()}
+      {showRentalInfo && <RentalInfo location={location} holiday={holiday} />}
     </div>
   );
 };
